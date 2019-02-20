@@ -1,0 +1,139 @@
+<h3>Edit Opportunity</h3>
+
+<form class="groupForm formDefault" [formGroup]="opportunityForm" fxLayout="column">
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol">
+      <label>Link <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter link here..." formControlName="link">
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['link'].hasError('required') && opportunityForm.controls['link'].touched"></p-message>
+      <p-message severity="error" text="Invalid link" *ngIf="opportunityForm.controls['link'].hasError('pattern') && opportunityForm.controls['link'].touched"></p-message>
+    </span>
+    <span class="formLft formCol">
+      <label>Job Title <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter job title here..." formControlName="job_title">
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['job_title'].hasError('required') && opportunityForm.controls['job_title'].touched"></p-message>
+    </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol">
+      <label>Verification <strong class="red">*</strong>&nbsp;<p-checkbox [formControl]="opportunityForm.controls['verification']"
+          binary="true"></p-checkbox></label>
+    </span>
+    <span class="formLft formCol" *ngIf="closerDisplay">
+      <label>Response <strong class="red">*</strong>&nbsp;<p-checkbox formControlName="response" [formControl]="opportunityForm.controls['response']" (onChange)="onChange()"
+          name="group1" value="response" [(ngModel)]="checkbox"></p-checkbox></label>
+    </span>
+    <span class="formLft formCol" *ngIf="closerDisplay">
+      <label>Awarded <strong class="red">*</strong>&nbsp;<p-checkbox formControlName="awarded" [formControl]="opportunityForm.controls['awarded']" (onChange)="onChange()"
+          name="group1" value="awarded" [(ngModel)]="checkbox"></p-checkbox></label>
+    </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol">
+      <label>Category <strong class="red">*</strong></label>
+      <select formControlName="category" placeholder="Select category from here">
+        <option value="">Select category from here</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{category.data.categoryName}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['category'].hasError('required') && opportunityForm.controls['category'].touched"></p-message>
+    </span>
+    <span class="formLft formCol">
+      <label>Portal <strong class="red">*</strong></label>
+      <select formControlName="portal" placeholder="Select portal from here">
+        <option value="">Select portal from here</option>
+        <option *ngFor="let portal of portals" [value]="portal.id">{{portal.data.portalName}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['portal'].hasError('required') && opportunityForm.controls['portal'].touched"></p-message>
+    </span>
+  </div>
+
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol">
+      <label>Profile <strong class="red">*</strong></label>
+      <select formControlName="profile" placeholder="Select profile from here">
+        <option value="">Select profile from here</option>
+        <option *ngFor="let profile of profiles" [value]="profile.id">{{profile.data.profileName}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['profile'].hasError('required') && opportunityForm.controls['profile'].touched"></p-message>
+    </span>
+    <span class="formLft formCol">
+      <label>Project Type <strong class="red">*</strong></label>
+      <select formControlName="project_type" placeholder="Select project type from here" (change)="onChangeProjectType($event)">
+        <option value="">Select Project Type from here</option>
+        <option *ngFor="let projectType of projectTypes" [value]="projectType.id">{{projectType.data.name}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['project_type'].hasError('required') && opportunityForm.controls['project_type'].touched"></p-message>
+    </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow" *ngIf="displayProposed">
+    <span class="formLft formCol">
+      <label>Proposed Pricing <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter proposed pricing here..." formControlName="proposed_pricing">
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['proposed_pricing'].hasError('required') && opportunityForm.controls['proposed_pricing'].touched"></p-message>
+      <p-message severity="error" text="Pattern Invalid" *ngIf="opportunityForm.controls['proposed_pricing'].hasError('pattern') && opportunityForm.controls['proposed_pricing'].touched"></p-message>
+    </span>
+    <span class="formLft formCol">
+      <label>Proposed Hour <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter proposed hour here..." formControlName="proposed_hour">
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['proposed_hour'].hasError('required') && opportunityForm.controls['proposed_hour'].touched"></p-message>
+      <p-message severity="error" text="Proposed hour should be in between 1-23" *ngIf="opportunityForm.controls['proposed_hour'].hasError('pattern') && opportunityForm.controls['proposed_hour'].touched"></p-message>
+    </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol" *ngIf="!show">
+      <label>Status <strong class="red">*</strong></label>
+      <select formControlName="status" placeholder="Select status from here">
+        <option value="">Select status from here</option>
+        <option value="done">Done</option>
+        <option value="not-done">Not Done</option>
+        <option value="verification-rejected">Verification Rejected</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['status'].hasError('required') && opportunityForm.controls['status'].touched"></p-message>
+    </span>
+    <span class="formLft formCol" *ngIf="shouldShowCreatedBy">
+      <label>Verified By <strong class="red">*</strong></label>
+      <select formControlName="verified_by" placeholder="Select verified by from here">
+        <option value="">Select verified by from here</option>
+        <option *ngFor="let vb of verifiedBy" [value]="vb.id">{{vb.data.firstName}} {{vb.data.lastName}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['verified_by'].hasError('required') && opportunityForm.controls['verified_by'].touched"></p-message>
+    </span>
+
+    <span class="formLft formCol" *ngIf="show && closerDisplay">
+      <label>Select Project Closer<strong class="red">*</strong></label>
+      <select formControlName="closer_name" placeholder="Select Closer Name">
+        <option value="">Select Closer Name from here</option>
+        <option *ngFor="let closer of closers" [value]="closer.id">{{closer.data.firstName}} {{closer.data.lastName}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="opportunityForm.controls['closer_name'].hasError('required') && opportunityForm.controls['closer_name'].touched"></p-message>
+    </span>
+  </div>
+
+  <!-- FOOTER BUTTON STARTS HERE -->
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="submit()"
+      [disabled]="!opportunityForm.valid">
+      <span class="ui-button-text ui-clickable">
+        <i class="fa fa-close" *ngIf="!opportunityForm.valid"></i>
+        <i class="fa fa-check" *ngIf="opportunityForm.valid"></i>
+        Submit
+      </span>
+    </button>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" routerLink="/app/opportunity/list"><span
+        class="ui-button-text ui-clickable"><i class="fa fa-chevron-left"></i> Back</span></a>
+  </div>
+  <!-- FOOTER BUTTON ENDS HERE -->
+
+</form>
+<p-toast></p-toast>

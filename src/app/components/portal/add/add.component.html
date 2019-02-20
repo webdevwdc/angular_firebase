@@ -1,0 +1,40 @@
+<h3>Add Portal</h3>
+
+
+<form class="portalForm formDefault" [formGroup]="portalAddForm" fxLayout="column">
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+
+    <span class="formLft formCol">
+      <label>Portal Name <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter the portal name here..." formControlName="portalName">
+      <p-message severity="error" text="Field is required" *ngIf="portalAddForm.controls['portalName'].hasError('required') && portalAddForm.controls['portalName'].touched"></p-message>
+      <p-message severity="error" text="Enter proper format of portal name" *ngIf="portalAddForm.controls['portalName'].hasError('pattern') && formInvalid"></p-message>
+    </span>
+
+    <span class="formRgt formCol">
+      <label>Status <strong class="red">*</strong></label>
+      <select formControlName="status" placeholer="status">
+        <option value="">Status</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="portalAddForm.controls['status'].hasError('required') && portalAddForm.controls['status'].touched"></p-message>
+      <p-message severity="error" text="Enter proper format of portal name" *ngIf="portalAddForm.controls['status'].hasError('pattern') && formInvalid"></p-message>
+    </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="save(portalAddForm.value)"
+      [disabled]="!portalAddForm.valid">
+      <span class="ui-button-text ui-clickable">
+        <i class="fa fa-close" *ngIf="!portalAddForm.valid"></i>
+        <i class="fa fa-check" *ngIf="portalAddForm.valid"></i>
+        Submit
+      </span>
+    </button>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" routerLink="/app/portal/list"><span
+        class="ui-button-text ui-clickable"><i class="fa fa-chevron-left"></i> Back</span></a>
+  </div>
+</form>
+<p-toast></p-toast>

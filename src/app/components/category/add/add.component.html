@@ -1,0 +1,28 @@
+<h3>Add Category</h3>
+
+
+<form class="categoryForm formDefault" [formGroup]="categoryAddForm" fxLayout="column">
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol">
+      <label>Category Name <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter the category name here..." formControlName="categoryName">
+      <p-message severity="error" text="Field is required" *ngIf="categoryAddForm.controls['categoryName'].hasError('required') && categoryAddForm.controls['categoryName'].touched"></p-message>
+      <p-message severity="error" text="Enter proper format of category name" *ngIf="categoryAddForm.controls['categoryName'].hasError('pattern') && formInvalid"></p-message>
+    </span>
+  </div>
+ 
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="save(categoryAddForm.value)"
+      [disabled]="!categoryAddForm.valid">
+      <span class="ui-button-text ui-clickable">
+        <i class="fa fa-close" *ngIf="!categoryAddForm.valid"></i>
+        <i class="fa fa-check" *ngIf="categoryAddForm.valid"></i>
+        Submit
+      </span>
+    </button>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" routerLink="/app/category/list"><span
+        class="ui-button-text ui-clickable"><i class="fa fa-chevron-left"></i> Back</span></a>
+  </div>
+</form>
+<p-toast></p-toast>

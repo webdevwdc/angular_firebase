@@ -1,0 +1,88 @@
+<div fxLayout="column" fxFlex="100%" fxLayoutAlign="flex-start" fxLayoutGap="0">
+  <div class="listingHead" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between"
+    fxLayoutAlign.sm="flex-start" fxLayoutAlign.xs="flex-start" fxLayoutGap="25px">
+    <h3>Team Contract List</h3>
+    <span class="searchField">
+      <i class="fa fa-search"></i>
+      <input [(ngModel)]="searchText" placeholder="Search text goes here..." class="searchDataInput">
+    </span>
+  </div>
+
+
+  <div class="mt20"></div>
+  <div class="tableResponsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Job</th>
+          <th>Portal</th>
+          <th>Profile</th>
+          <th>Project</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows | searchFilter: {'category.categoryName':searchText, 'data.job_title':searchText,'portal.portalName':searchText,'profile.profileName':searchText,'project_type.name':searchText,'data.status':searchText}"
+          [ngClass]="row.data.response ? 'responseBGcolor' : row.data.awarded ? 'awardedBGcolor' : ''">
+          <td>{{row.category ? row.category.categoryName : ''}}</td>
+          <td>{{row.data.job_title}}</td>
+          <td>{{row.portal ? row.portal.portalName : ''}}</td>
+          <td>{{row.profile ? row.profile.profileName : ''}}</td>
+          <td>{{row.project_type ? row.project_type.name : ''}}</td>
+          <td>{{row.data.status}}</td>
+          <td>
+            <button pButton type="button" class="ui-button-success btnIcon" icon="fa fa-eye" (click)="view(row.id)"></button>
+
+          </td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="7">
+            <h5 style="margin:0;">No Data Found</h5>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <!-- pager -->
+  <ul *ngIf="pager.pages && pager.pages.length && pager.totalPages > 1" class="pagination">
+    <li>Pages : </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="getDataByPage(1)"><i class="fa fa-step-backward"></i> </a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="getDataByPage(pager.currentPage - 1)"><i class="fa fa-backward"></i> </a>
+    </li>
+    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="getDataByPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="getDataByPage(pager.currentPage + 1)"> <i class="fa fa-forward"></i></a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="getDataByPage(pager.totalPages)"> <i class="fa fa-step-forward"></i></a>
+    </li>
+  </ul>
+  <!-- pager -->
+  <!-- // Dialog Box -->
+  <p-dialog header="Team Opportunity" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200"
+    [minY]="70" [maximizable]="false" [baseZIndex]="10000" i=index;>
+    <p>
+      <strong>Category :</strong> {{viewData.category_name || ''}} </p>
+    <p>
+      <strong>Job :</strong>{{viewData.job_title || ''}}</p>
+    <p>
+      <strong>Portal :</strong>{{viewData.portal_name || ''}} </p>
+    <p>
+      <strong>Profile :</strong> {{viewData.profile_name || ''}} </p>
+    <p>
+      <strong>Project :</strong> {{viewData.projectType_name || ''}} </p>
+    <p>
+      <strong>Status :</strong>{{viewData.status || ''}} </p>
+  </p-dialog>
+</div>
+<p-toast></p-toast>

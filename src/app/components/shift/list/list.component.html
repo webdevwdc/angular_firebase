@@ -1,0 +1,65 @@
+<div fxLayout="column" fxFlex="100%" fxLayoutAlign="flex-start" fxLayoutGap="0">
+  <div class="listingHead" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between"
+    fxLayoutAlign.sm="flex-start" fxLayoutAlign.xs="flex-start" fxLayoutGap="25px">
+    <h3>Associate List</h3>
+    <span class="searchField">
+      <i class="fa fa-search"></i>
+      <input [(ngModel)]="searchText" placeholder="Search text goes here..." class="searchDataInput">
+    </span>
+  </div>
+
+  <div class="mt20"></div>
+  <div class="tableResponsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Type</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows | searchFilter: {'data.firstName':searchText, 'data.lastName':searchText, 'data.email':searchText}">
+          <td>{{row.data.firstName}} {{row.data.lastName}}</td>
+          <td>{{row.data.email}}</td>
+          <td>{{row.data.phoneNumber}}</td>
+          <td>{{row.data.role[0] | titlecase}}</td>
+          <td>
+            <button pButton type="button" class="btnIcon" icon="pi pi-pencil" (click)="goToEdit(row.id)"></button>
+          </td>
+        </tr>
+
+      </tbody>
+      <tfoot *ngIf="rows?.length===0">
+        <tr>
+          <td colspan="5">
+            <h5 style="margin:0;">No Data Found</h5>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <!-- pager -->
+  <ul *ngIf="pager.pages && pager.pages.length && pager.totalPages > 1" class="pagination">
+    <li>Pages : </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="getDataByPage(1)"><i class="fa fa-step-backward"></i> </a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="getDataByPage(pager.currentPage - 1)"><i class="fa fa-backward"></i> </a>
+    </li>
+    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="getDataByPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="getDataByPage(pager.currentPage + 1)"> <i class="fa fa-forward"></i></a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="getDataByPage(pager.totalPages)"> <i class="fa fa-step-forward"></i></a>
+    </li>
+  </ul>
+  <!-- pager -->
+</div>
+

@@ -1,0 +1,80 @@
+<h3>Set Shift</h3>
+
+
+<form class="projectForm formDefault" [formGroup]="shiftAddForm" fxLayout="column">
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <span class="formLft formCol">
+      <label><strong>Associate</strong> :: {{associate?.firstName}} {{associate?.lastName}}</label>
+
+    </span>
+
+    <span class="formRgt formCol">
+      <label><strong>Email</strong> :: {{associate?.email}}</label>
+    </span>
+  </div>
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+      fxLayoutGap.xs="0" class="formRow" formArrayName="shift">
+      <span class="formRgt formCol">
+        <label><strong>Shift</strong> ::</label>
+        <div class="tableResponsive">
+          <table>
+            <thead>
+              <tr>
+                <th> Day</th>
+                <th> Start Time</th>
+                <th> End Time</th>
+                <th> Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let itemrow of shiftAddForm.controls['shift'].controls; let i=index" [formGroupName]="i">
+
+                <td>
+                  <select formControlName="day" placeholder="Select Day from here">
+                    <option value="">Select Day</option>
+                    <option value="0">Sunday</option>
+                    <option value="1">Monday</option>
+                    <option value="2">Tuesday</option>
+                    <option value="3">Wednesday</option>
+                    <option value="4">Thursday</option>
+                    <option value="5">Friday</option>
+                    <option value="6">Saturday</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="text" value="" placeholder="enter start time..." formControlName="start_time">
+                </td>
+                <td>
+                  <input type="text" value="" placeholder="enter end time..." formControlName="end_time">
+                </td>
+                <td>
+                  <button pButton class="ui-button-danger btnIcon" icon="pi pi-trash" type="button" *ngIf="shiftAddForm.controls['shift'].controls.length > 1"
+                    (click)="deleteDeckRow(i)"></button>
+
+                  <button pButton class="btnIcon" icon="pi pi-plus" type="button" *ngIf="shiftAddForm.controls['shift'].controls.length == (i+1)"
+                    (click)="addNewDeckRow()"></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </span>
+    </div>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="save(shiftAddForm.value)"
+      [disabled]="!shiftAddForm.valid">
+      <span class="ui-button-text ui-clickable">
+        <i class="fa fa-close" *ngIf="!shiftAddForm.valid"></i>
+        <i class="fa fa-check" *ngIf="shiftAddForm.valid"></i>
+        Submit
+      </span>
+    </button>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" routerLink="/app/shift/list"
+      [queryParams]="{ page: currentPage}"><span class="ui-button-text ui-clickable"><i class="fa fa-chevron-left"></i>
+        Back</span></a>
+  </div>
+</form>
+<p-toast></p-toast>

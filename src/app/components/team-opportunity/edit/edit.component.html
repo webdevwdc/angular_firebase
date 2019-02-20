@@ -1,0 +1,62 @@
+<h3>Edit Team Opportunity</h3>
+
+<form class="teamOpportunityForm formDefault" [formGroup]="teamOpportunityEditForm" fxLayout="column">
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+
+    <span class="formLft formCol" *ngIf="associate && associate.length>0">
+      <label><strong>Associate</strong> :: {{associate[0].data?.firstName}} {{associate[0].data?.lastName}}</label>
+      <br>
+      <label><strong>Email</strong> :: {{associate[0].data?.email}}</label>
+    </span>
+
+    <span class="formRgt formCol">
+      <label>Change Associate<strong class="red">*</strong></label>
+      <select formControlName="created_by" placeholder="Select Associate from here">
+        <option value="">Select Associate from here</option>
+        <option *ngFor="let associate of allAssociate" value={{associate.id}}>{{associate.data.firstName}}{{associate.data.lastName}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="teamOpportunityEditForm.controls['created_by'].hasError('required') && teamOpportunityEditForm.controls['created_by'].touched"></p-message>
+    </span>
+
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+
+    <span class="formLft formCol" *ngIf="closerDisplay">
+      <label>Response <strong class="red">*</strong>&nbsp;<p-checkbox formControlName="response" [formControl]="teamOpportunityEditForm.controls['response']"
+          (onChange)="onChange()" name="group1" value="response" [(ngModel)]="checkbox"></p-checkbox></label>
+    </span>
+    <span class="formLft formCol" *ngIf="closerDisplay">
+      <label>Awarded <strong class="red">*</strong>&nbsp;<p-checkbox formControlName="awarded" [formControl]="teamOpportunityEditForm.controls['awarded']"
+          (onChange)="onChange()" name="group1" value="awarded" [(ngModel)]="checkbox"></p-checkbox></label>
+    </span>
+  </div>
+
+  <span class="formLft formCol" *ngIf="show && closerDisplay">
+    <label>Select Project Closer<strong class="red">*</strong></label>
+    <select formControlName="closer_name" placeholder="Select Closer Name">
+      <option value="">Select Closer Name from here</option>
+      <option *ngFor="let closer of closers" [value]="closer.id">{{closer.data.firstName}} {{closer.data.lastName}}</option>
+    </select>
+    <p-message severity="error" text="Field is required" *ngIf="teamOpportunityEditForm.controls['closer_name'].hasError('required') && teamOpportunityEditForm.controls['closer_name'].touched"></p-message>
+  </span>
+
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="save(teamOpportunityEditForm.value)"
+      [disabled]="!teamOpportunityEditForm.valid">
+      <span class="ui-button-text ui-clickable">
+        <i class="fa fa-close" *ngIf="!teamOpportunityEditForm.valid"></i>
+        <i class="fa fa-check" *ngIf="teamOpportunityEditForm.valid"></i>
+        Submit
+      </span>
+    </button>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" [routerLink]="['/app/team-opportunity/list']"
+      [queryParams]="{ page: currentPage }">
+      <span class="ui-button-text ui-clickable"><i class="fa fa-chevron-left"></i> Back</span>
+    </a>
+  </div>
+</form>
+<p-toast></p-toast>

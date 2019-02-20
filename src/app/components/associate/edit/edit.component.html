@@ -1,0 +1,81 @@
+<h3>Edit Associate</h3>
+
+<form class="clientForm formDefault" [formGroup]="associateEditForm" fxLayout="column">
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol">
+      <label>First Name <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter your first name here..." formControlName="firstName">
+      <p-message severity="error" text="Field is required" *ngIf="associateEditForm.controls['firstName'].hasError('required') && associateEditForm.controls['firstName'].touched"></p-message>
+      <p-message severity="error" text="Enter proper format of first name" *ngIf="associateEditForm.controls['firstName'].hasError('pattern') && formInvalid"></p-message>
+    </span>
+    <span class="formRgt formCol">
+      <label>Last Name <strong class="red">*</strong></label>
+      <input type="text" value="" placeholder="Enter your last name here..." formControlName="lastName">
+      <p-message severity="error" text="Field is required" *ngIf="associateEditForm.controls['lastName'].hasError('required') && associateEditForm.controls['lastName'].touched"></p-message>
+      <p-message severity="error" text="Enter proper format of last name" *ngIf="associateEditForm.controls['lastName'].hasError('pattern') && formInvalid"></p-message>
+    </span>
+  </div>
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow" class="formRow">
+    <span class="formLft formCol">
+      <label>Email <strong class="red">*</strong></label>
+      <input type="email" value="" placeholder="Enter your Email Address here..." formControlName="email" readonly>
+      <p-message severity="error" text="Field is required" *ngIf="associateEditForm.controls['email'].hasError('required') && associateEditForm.controls['email'].touched"></p-message>
+      <p-message severity="error" text="Enter a valid email address" *ngIf="associateEditForm.controls['email'].hasError('pattern') && formInvalid"></p-message>
+    </span>
+    <span class="formRgt formCol">
+      <label>Phone Number <strong class="red">*</strong></label>
+      <input type="tel" pattern="^[0-9]*$" value="" placeholder="Enter your Phone Number here..." formControlName="phoneNumber" maxlength="10">
+      <p-message severity="error" text="Field is required" *ngIf="associateEditForm.controls['phoneNumber'].hasError('required') && associateEditForm.controls['phoneNumber'].touched"></p-message>
+    </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+  fxLayoutGap.xs="0" class="formRow" class="formRow"  *ngIf="!managerCheckBox">
+  <span class="formLft formCol">
+    <label>Is Co-Ordinator? <strong class="red">*</strong></label>
+    <p-checkbox [formControl]="associateEditForm.controls['isCoOrdinator']" binary="true" (click)="coOrdinatorChange()"></p-checkbox>
+  </span>
+</div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow" class="formRow">
+    <span class="formLft formCol">
+      <label>Is Closer? <strong class="red">*</strong></label>
+      <p-checkbox [formControl]="associateEditForm.controls['isCloser']" binary="true"></p-checkbox>
+    </span>
+    <span class="formRgt formCol" *ngIf="!CoOrdinatorCheckBox">
+      <label>Is Manager? <strong class="red">*</strong></label>
+      <p-checkbox [formControl]="associateEditForm.controls['isManager']" binary="true" (click)="onchange()"></p-checkbox>
+    </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow" class="formRow">
+    <span class="formRgt formCol" *ngIf="!managerCheckBox && !CoOrdinatorCheckBox">
+      <label>Manager<strong class="red">*</strong></label>
+      <select formControlName="manager" placeholder="Select manager from here">
+        <option value="">Select Manager from here</option>
+        <option *ngFor="let manager of managers" value={{manager.id}}>{{manager.data.firstName}}
+          {{manager.data.lastName}}</option>
+      </select>
+      <p-message severity="error" text="Field is required" *ngIf="associateEditForm.controls['manager'].hasError('required') && associateEditForm.controls['manager'].touched"></p-message>
+    </span>
+  </div>
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="save(associateEditForm.value)"
+      [disabled]="!associateEditForm.valid">
+      <span class="ui-button-text ui-clickable">
+        <i class="fa fa-close" *ngIf="!associateEditForm.valid"></i>
+        <i class="fa fa-check" *ngIf="associateEditForm.valid"></i>
+        Submit
+      </span>
+    </button>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" [routerLink]="['/app/associate/list']"
+      [queryParams]="{ page: currentPage}">
+      <span class="ui-button-text ui-clickable"><i class="fa fa-chevron-left"></i> Back</span>
+    </a>
+  </div>
+</form>
+<p-toast></p-toast>

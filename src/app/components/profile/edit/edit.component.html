@@ -1,0 +1,39 @@
+<h3>Edit Profile</h3>
+
+<form class="profileForm formDefault" [formGroup]="profileEditForm" fxLayout="column">
+
+  <div fxFlex="100%" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.sm="0"
+    fxLayoutGap.xs="0" class="formRow">
+    <span class="formLft formCol">
+        <label>Portal Name<strong class="red">*</strong></label>
+        <select formControlName="portal" placeholder="Select portal from here">
+          <option value="">Select Portal from here</option>
+          <option *ngFor="let portal of portals" value={{portal.id}}>{{portal.data.portalName}}</option>
+        </select>
+        <p-message severity="error" text="Field is required" *ngIf="profileEditForm.controls['portal'].hasError('required') && profileEditForm.controls['portal'].touched"></p-message>
+      </span>
+  
+      <span class="formRgt formCol">
+        <label>Profile Name <strong class="red">*</strong></label>
+        <input type="text" value="" placeholder="Enter your Profile Name here..." formControlName="profileName">
+        <p-message severity="error" text="Field is required" *ngIf="profileEditForm.controls['profileName'].hasError('required') && profileEditForm.controls['profileName'].touched"></p-message>
+        <p-message severity="error" text="Enter proper format of brand" *ngIf="profileEditForm.controls['profileName'].hasError('profileName') && formInvalid"></p-message>
+      </span>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayoutGap="25px" class="formRow">
+    <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="profileEditFormSubmit()"
+      [disabled]="!profileEditForm.valid">
+      <span class="ui-button-text ui-clickable">
+        <i class="fa fa-close" *ngIf="!profileEditForm.valid"></i>
+        <i class="fa fa-check" *ngIf="profileEditForm.valid"></i>
+        Submit
+      </span>
+    </button>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" [routerLink]="['/app/profile/list']"
+      [queryParams]="{ page: currentPage }">
+      <span class="ui-button-text ui-clickable"><i class="fa fa-chevron-left"></i> Back</span>
+    </a>
+  </div>
+</form>
+<p-toast></p-toast>

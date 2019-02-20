@@ -1,0 +1,59 @@
+<div fxLayout="column" fxFlex="100%" fxLayoutAlign="flex-start" fxLayoutGap="0">
+  <div class="listingHead" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between"
+    fxLayoutAlign.sm="flex-start" fxLayoutAlign.xs="flex-start" fxLayoutGap="25px">
+    <h3>My Shift</h3>
+    
+  </div>
+
+  <div class="mt20"></div>
+  <div class="tableResponsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Day</th>
+          <th>Shift</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows">
+          <td>{{associate?.firstName}} {{associate?.lastName}}</td>
+          <td>{{associate?.email}}</td>
+          <td>{{days[row.day]}}</td>
+          <td>From {{row.start_time}} To {{row.end_time}}</td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+            <h5 style="margin:0;">Please ask your manager to add your shift.</h5>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <!-- pager -->
+  <ul *ngIf="pager.pages && pager.pages.length && pager.totalPages > 1" class="pagination">
+    <li>Pages : </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="getDataByPage(1)"><i class="fa fa-step-backward"></i> </a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="getDataByPage(pager.currentPage - 1)"><i class="fa fa-backward"></i> </a>
+    </li>
+    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="getDataByPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="getDataByPage(pager.currentPage + 1)"> <i class="fa fa-forward"></i></a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="getDataByPage(pager.totalPages)"> <i class="fa fa-step-forward"></i></a>
+    </li>
+  </ul>
+  <!-- pager -->
+</div>
+
+
